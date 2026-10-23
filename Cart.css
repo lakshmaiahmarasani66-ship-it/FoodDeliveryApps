@@ -1,0 +1,333 @@
+/* ==================================
+   KJL RESTAURANT - CART PAGE STYLES
+   ================================== */
+
+.page {
+    min-height: 100vh;
+    padding: 2.5rem 0 4rem;
+}
+
+.container {
+    width: min(1100px, 92%);
+    margin: 0 auto;
+}
+
+/* Page heading */
+
+.section-heading {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.section-heading h1 {
+    margin: 0 0 0.6rem;
+    color: var(--text, #302b27);
+    font-size: clamp(2rem, 4vw, 2.8rem);
+}
+
+.eyebrow {
+    display: inline-block;
+    margin-bottom: 0.7rem;
+    color: var(--primary, #e85d3f);
+    font-size: 0.85rem;
+    font-weight: 700;
+    letter-spacing: 1.4px;
+    text-transform: uppercase;
+}
+
+.muted {
+    color: var(--muted, #77716b);
+    line-height: 1.7;
+}
+
+/* Cart layout */
+
+.cart-layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1.7fr) minmax(260px, 1fr);
+    align-items: start;
+    gap: 2rem;
+}
+
+.cart-items {
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
+}
+
+/* Individual cart item */
+
+.cart-item {
+    display: flex;
+    align-items: center;
+    gap: 1.2rem;
+    padding: 1.3rem;
+    background: var(--bg, #f7f2e9);
+    border: 1px solid rgba(255, 255, 255, 0.7);
+    border-radius: 20px;
+    box-shadow:
+        7px 7px 18px rgba(163, 150, 130, 0.17),
+        -7px -7px 18px rgba(255, 255, 255, 0.85);
+}
+
+.cart-item-image {
+    flex-shrink: 0;
+    width: 105px;
+    height: 105px;
+    object-fit: cover;
+    background: #eee4d5;
+    border-radius: 15px;
+}
+
+.cart-item-details {
+    flex: 1;
+    min-width: 0;
+}
+
+.cart-item-title {
+    margin: 0 0 0.5rem;
+    color: var(--text, #302b27);
+    font-size: 1.1rem;
+    overflow-wrap: anywhere;
+}
+
+.cart-item-price {
+    margin: 0.3rem 0;
+    color: var(--primary, #e85d3f);
+    font-weight: 800;
+    font-size: 1.1rem;
+}
+
+.cart-item-quantity {
+    margin: 0.4rem 0;
+    color: var(--muted, #77716b);
+    font-size: 0.9rem;
+}
+
+/* Item actions */
+
+.cart-item-actions {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 0.8rem;
+}
+
+.cart-item-total {
+    color: var(--text, #302b27);
+    font-weight: 800;
+    white-space: nowrap;
+}
+
+/* Summary card */
+
+.cart-summary {
+    position: sticky;
+    top: 1.5rem;
+    padding: 1.7rem;
+    background: var(--bg, #f7f2e9);
+    border-radius: 22px;
+    box-shadow:
+        8px 8px 20px rgba(163, 150, 130, 0.17),
+        -8px -8px 20px rgba(255, 255, 255, 0.85);
+}
+
+.cart-summary h2 {
+    margin: 0 0 1.4rem;
+    color: var(--text, #302b27);
+    font-size: 1.4rem;
+}
+
+.summary-row {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    margin: 1rem 0;
+    color: var(--muted, #77716b);
+}
+
+.summary-row span:last-child {
+    color: var(--text, #302b27);
+    font-weight: 600;
+    text-align: right;
+}
+
+.summary-divider {
+    height: 1px;
+    margin: 1.2rem 0;
+    background: var(--border, #e7ded1);
+    border: 0;
+}
+
+.summary-total {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+    color: var(--text, #302b27);
+    font-size: 1.15rem;
+    font-weight: 800;
+}
+
+.summary-total span:last-child {
+    color: var(--primary, #e85d3f);
+    font-size: 1.4rem;
+}
+
+.cart-summary .btn {
+    width: 100%;
+    box-sizing: border-box;
+}
+
+/* Buttons */
+
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.4rem;
+    padding: 0.8rem 1.1rem;
+    color: #fff;
+    background: var(--primary, #e85d3f);
+    border: none;
+    border-radius: 12px;
+    box-shadow: 4px 4px 10px rgba(180, 74, 49, 0.18);
+    font: inherit;
+    font-weight: 700;
+    text-decoration: none;
+    cursor: pointer;
+    transition:
+        background 0.2s ease,
+        transform 0.2s ease;
+}
+
+.btn:hover {
+    color: #fff;
+    background: var(--primary-dark, #cf4930);
+    transform: translateY(-2px);
+}
+
+.btn-small {
+    padding: 0.6rem 0.8rem;
+    font-size: 0.85rem;
+}
+
+.btn-danger {
+    color: #c83f32;
+    background: var(--bg, #f7f2e9);
+    box-shadow:
+        4px 4px 9px rgba(163, 150, 130, 0.15),
+        -4px -4px 9px rgba(255, 255, 255, 0.8);
+}
+
+.btn-danger:hover {
+    color: #fff;
+    background: #c83f32;
+}
+
+.btn-ghost {
+    color: var(--primary, #e85d3f);
+    background: var(--bg, #f7f2e9);
+    box-shadow:
+        5px 5px 12px rgba(163, 150, 130, 0.15),
+        -5px -5px 12px rgba(255, 255, 255, 0.85);
+}
+
+.btn-ghost:hover {
+    color: #fff;
+    background: var(--primary, #e85d3f);
+}
+
+.btn:focus-visible {
+    outline: 3px solid rgba(232, 93, 63, 0.4);
+    outline-offset: 3px;
+}
+
+/* Empty cart */
+
+.empty-state {
+    padding: 3rem 1.5rem;
+    text-align: center;
+    background: var(--bg, #f7f2e9);
+    border-radius: 22px;
+    box-shadow:
+        inset 5px 5px 12px rgba(163, 150, 130, 0.14),
+        inset -5px -5px 12px rgba(255, 255, 255, 0.85);
+}
+
+.empty-state h2,
+.empty-state h3 {
+    margin-top: 0;
+    color: var(--text, #302b27);
+}
+
+.empty-state p {
+    margin-bottom: 1.3rem;
+}
+
+/* Tablet */
+
+@media (max-width: 800px) {
+    .cart-layout {
+        grid-template-columns: 1fr;
+    }
+
+    .cart-summary {
+        position: static;
+    }
+}
+
+/* Mobile */
+
+@media (max-width: 550px) {
+    .page {
+        padding-top: 1.5rem;
+    }
+
+    .section-heading {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .cart-item {
+        flex-wrap: wrap;
+        gap: 1rem;
+        padding: 1rem;
+    }
+
+    .cart-item-image {
+        width: 85px;
+        height: 85px;
+    }
+
+    .cart-item-details {
+        flex-basis: calc(100% - 110px);
+    }
+
+    .cart-item-actions {
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+        width: 100%;
+    }
+
+    .cart-summary {
+        padding: 1.3rem;
+    }
+}
+
+/* Accessibility */
+
+@media (prefers-reduced-motion: reduce) {
+    .btn {
+        transition: none;
+    }
+
+    .btn:hover {
+        transform: none;
+    }
+}

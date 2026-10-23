@@ -1,284 +1,301 @@
-```jsp
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8" %>
 
-<%@ page import="java.util.List" %>
-<%@ page import="com.tab.model.Restaurant" %>
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ page import="java.util.List,com.tab.model.Restaurant" %>
 
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
-<title>KJL Restaurant</title>
+    <title>Restaurants | KJL Restaurant</title>
 
-<style>
-    * {
-        box-sizing: border-box;
-    }
+    <link rel="stylesheet"
+          href="<%= request.getContextPath() %>/css/common.css">
 
-    body {
-        margin: 0;
-        font-family: Arial, sans-serif;
-        background-color: #f5f5f5;
-        color: #333;
-    }
+    <link rel="stylesheet"
+          href="<%= request.getContextPath() %>/css/restaurant.css">
 
-    header {
-        background-color: #fc8019;
-        color: white;
-        text-align: center;
-        padding: 25px 15px;
-    }
-
-    header h1 {
-        margin: 0;
-        font-size: 32px;
-    }
-
-    header p {
-        margin-bottom: 0;
-        font-size: 16px;
-    }
-
-    .container {
-        width: 92%;
-        max-width: 1200px;
-        margin: 30px auto;
-    }
-
-    .restaurant-grid {
-        display: grid;
-        grid-template-columns: repeat(
-            auto-fit, minmax(270px, 1fr)
-        );
-        gap: 25px;
-    }
-
-    .restaurant-card {
-        background-color: white;
-        border-radius: 12px;
-        overflow: hidden;
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-        transition: transform 0.2s ease;
-    }
-
-    .restaurant-card:hover {
-        transform: translateY(-5px);
-    }
-
-    .restaurant-image {
-        width: 100%;
-        height: 200px;
-        object-fit: cover;
-        display: block;
-        background-color: #eee;
-    }
-
-    .restaurant-details {
-        padding: 18px;
-    }
-
-    .restaurant-details h2 {
-        margin-top: 0;
-        margin-bottom: 15px;
-        color: #fc8019;
-        font-size: 22px;
-    }
-
-    .restaurant-details p {
-        margin: 10px 0;
-        font-size: 14px;
-        line-height: 1.5;
-        overflow-wrap: anywhere;
-    }
-
-    .rating {
-        color: #16803c;
-        font-weight: bold;
-    }
-
-    .active {
-        color: green;
-        font-weight: bold;
-    }
-
-    .inactive {
-        color: red;
-        font-weight: bold;
-    }
-
-    .menu-btn {
-        display: inline-block;
-        width: 100%;
-        margin-top: 12px;
-        padding: 12px;
-        background-color: #fc8019;
-        color: white;
-        text-align: center;
-        text-decoration: none;
-        border: none;
-        border-radius: 7px;
-        font-size: 15px;
-        font-weight: bold;
-        cursor: pointer;
-    }
-
-    .menu-btn:hover {
-        background-color: #e56f0c;
-    }
-
-    .empty-message {
-        text-align: center;
-        background-color: white;
-        padding: 30px;
-        border-radius: 10px;
-    }
-
-    footer {
-        text-align: center;
-        padding: 20px;
-        color: #666;
-    }
-
-    @media (max-width: 600px) {
-        .container {
-            width: 94%;
+    <style>
+        .restaurant-search-form {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin: 22px 0;
+            align-items: center;
         }
 
-        header h1 {
-            font-size: 26px;
+        .restaurant-search-form input,
+        .restaurant-search-form select {
+            flex: 1;
+            min-width: 180px;
+            padding: 12px 14px;
+            border: 1px solid #dedede;
+            border-radius: 9px;
+            background: #fff;
+            color: #333;
+            font-size: 14px;
+            outline: none;
         }
-    }
-</style>
+
+        .restaurant-search-form input:focus,
+        .restaurant-search-form select:focus {
+            border-color: #e65325;
+        }
+
+        .restaurant-search-form button,
+        .restaurant-search-form .clear-btn {
+            padding: 12px 20px;
+            border: none;
+            border-radius: 9px;
+            background: #e65325;
+            color: white;
+            font-size: 14px;
+            font-weight: 600;
+            text-decoration: none;
+            cursor: pointer;
+            text-align: center;
+        }
+
+        .restaurant-search-form .clear-btn {
+            background: #555;
+        }
+
+        .restaurant-search-form button:hover {
+            background: #c9441d;
+        }
+
+        .restaurant-search-form .clear-btn:hover {
+            background: #333;
+        }
+
+        .search-result-count {
+            margin: 0 0 18px;
+            color: #777;
+            font-size: 14px;
+        }
+
+        .no-results {
+            grid-column: 1 / -1;
+            padding: 35px 20px;
+            text-align: center;
+            background: #fff;
+            border-radius: 12px;
+        }
+
+        .no-results h3 {
+            margin-bottom: 8px;
+        }
+
+        @media (max-width: 600px) {
+            .restaurant-search-form {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .restaurant-search-form input,
+            .restaurant-search-form select {
+                width: 100%;
+                min-width: 0;
+            }
+        }
+    </style>
 </head>
 
 <body>
 
-<header>
-    <h1>KJL Restaurant</h1>
-    <p>Discover Your Favourite Restaurants</p>
-</header>
+    <jsp:include page="/common/navbar.jsp" />
 
-<div class="container">
+    <main class="page">
+        <div class="container">
 
-<%
-    List<Restaurant> restaurants =
-        (List<Restaurant>) request.getAttribute("restaurants");
+            <section class="hero">
+                <div>
+                    <span class="eyebrow">Fresh • Local • Delicious</span>
 
-    if (restaurants != null && !restaurants.isEmpty()) {
-%>
+                    <h1>Good food is just a few clicks away.</h1>
 
-    <div class="restaurant-grid">
+                    <p>
+                        Discover restaurants, explore menus, and order
+                        your favorite meals with KJL Restaurant.
+                    </p>
 
-    <%
-        for (Restaurant restaurant : restaurants) {
-    %>
+                    <a class="btn" href="#restaurants">
+                        Explore Restaurants →
+                    </a>
+                </div>
 
-        <div class="restaurant-card">
+                <div class="hero-art" aria-hidden="true">🍛</div>
+            </section>
 
-            <%
-                String imagePath = restaurant.getImagePath();
+            <section id="restaurants">
 
-                if (imagePath != null && !imagePath.trim().isEmpty()) {
-            %>
+                <div class="section-heading">
+                    <div>
+                        <span class="eyebrow">Made for your cravings</span>
+                        <h2>Popular Restaurants</h2>
+                    </div>
+                </div>
 
-                <img
-                    class="restaurant-image"
-                    src="<%= imagePath %>"
-                    alt="Restaurant image"
-                    onerror="this.style.display='none';">
+                <%
+                    String search = request.getParameter("search");
+                    String cuisine = request.getParameter("cuisine");
 
-            <%
-                }
-            %>
+                    if (search == null) {
+                        search = "";
+                    }
 
-            <div class="restaurant-details">
+                    if (cuisine == null) {
+                        cuisine = "";
+                    }
 
-                <h2>
-                    <%= restaurant.getName() %>
-                </h2>
+                    List<Restaurant> restaurants =
+                        (List<Restaurant>) request.getAttribute("restaurants");
+                %>
 
-                <p>
-                    <strong>Restaurant ID:</strong>
-                    <%= restaurant.getRestaurantId() %>
+                <form class="restaurant-search-form"
+                      action="<%= request.getContextPath() %>/restaurant"
+                      method="get">
+
+                    <input type="search"
+                           name="search"
+                           placeholder="Search restaurant name..."
+                           value="<%= search.replace("&", "&amp;")
+                                            .replace("\"", "&quot;")
+                                            .replace("<", "&lt;")
+                                            .replace(">", "&gt;") %>">
+
+                    <select name="cuisine">
+                        <option value="">All Cuisines</option>
+                        <option value="Indian"
+                            <%= "Indian".equalsIgnoreCase(cuisine) ? "selected" : "" %>>
+                            Indian
+                        </option>
+                        <option value="North Indian"
+                            <%= "North Indian".equalsIgnoreCase(cuisine) ? "selected" : "" %>>
+                            North Indian
+                        </option>
+                        <option value="South Indian"
+                            <%= "South Indian".equalsIgnoreCase(cuisine) ? "selected" : "" %>>
+                            South Indian
+                        </option>
+                        <option value="Chinese"
+                            <%= "Chinese".equalsIgnoreCase(cuisine) ? "selected" : "" %>>
+                            Chinese
+                        </option>
+                        <option value="Italian"
+                            <%= "Italian".equalsIgnoreCase(cuisine) ? "selected" : "" %>>
+                            Italian
+                        </option>
+                        <option value="Mexican"
+                            <%= "Mexican".equalsIgnoreCase(cuisine) ? "selected" : "" %>>
+                            Mexican
+                        </option>
+                        <option value="Biryani"
+                            <%= "Biryani".equalsIgnoreCase(cuisine) ? "selected" : "" %>>
+                            Biryani
+                        </option>
+                    </select>
+
+                    <button type="submit">Search</button>
+
+                    <a class="clear-btn"
+                       href="<%= request.getContextPath() %>/restaurant">
+                        Clear
+                    </a>
+                </form>
+
+                <p class="search-result-count">
+                    <%= restaurants == null ? 0 : restaurants.size() %>
+                    restaurant(s) found
                 </p>
 
-                <p>
-                    <strong>Cuisine:</strong>
-                    <%= restaurant.getCuisineType() != null
-                        ? restaurant.getCuisineType()
-                        : "Not available" %>
-                </p>
+                <div class="grid grid-3">
 
-                <p>
-                    <strong>Address:</strong>
-                    <%= restaurant.getAddress() != null
-                        ? restaurant.getAddress()
-                        : "Not available" %>
-                </p>
+                    <%
+                        if (restaurants != null && !restaurants.isEmpty()) {
+                            for (Restaurant r : restaurants) {
+                    %>
 
-                <p>
-                    <strong>Delivery Time:</strong>
-                    <%= restaurant.getDeliveryTime() != null
-                        ? restaurant.getDeliveryTime()
-                        : "Not available" %>
-                </p>
+                    <article class="card">
 
-                <p class="rating">
-                    ⭐ Rating:
-                    <%= restaurant.getRating() %>
-                </p>
+                        <img class="card-image"
+                             src="<%= (r.getImagePath() == null
+                                     || r.getImagePath().isBlank())
+                                     ? request.getContextPath()
+                                         + "/images/restaurant-placeholder.jpg"
+                                     : r.getImagePath() %>"
+                             alt="<%= r.getName() %>"
+                             loading="lazy">
 
-                <p>
-                    <strong>Admin User ID:</strong>
-                    <%= restaurant.getAdminUserId() %>
-                </p>
+                        <div class="card-body">
 
-                <p>
-                    <strong>Status:</strong>
+                            <div class="section-heading">
+                                <h3 class="card-title">
+                                    <%= r.getName() %>
+                                </h3>
 
-                    <% if (restaurant.isActive()) { %>
-                        <span class="active">Active</span>
-                    <% } else { %>
-                        <span class="inactive">Inactive</span>
-                    <% } %>
-                </p>
+                                <span class="badge">
+                                    ★ <%= r.getRating() %>
+                                </span>
+                            </div>
 
-                <a class="menu-btn"
-                   href="<%= request.getContextPath() %>/menu?restaurantId=<%= restaurant.getRestaurantId() %>">
-                    View Menu
-                </a>
+                            <p class="muted">
+                                <%= r.getCuisineType() == null
+                                        ? "Popular cuisine"
+                                        : r.getCuisineType() %>
+                            </p>
 
-            </div>
+                            <div class="card-meta">
+                                <span>
+                                    ⏱ <%= r.getDeliveryTime() %> min
+                                </span>
+
+                                <span>
+                                    📍 <%= r.getAddress() == null
+                                            ? "Nearby"
+                                            : r.getAddress() %>
+                                </span>
+                            </div>
+
+                            <div class="card-actions">
+                                <a class="btn btn-small"
+                                   href="<%= request.getContextPath() %>/menu?restaurantId=<%= r.getRestaurantId() %>">
+                                    View Menu →
+                                </a>
+                            </div>
+
+                        </div>
+                    </article>
+
+                    <%
+                            }
+                        } else {
+                    %>
+
+                    <div class="no-results">
+                        <h3>No restaurants found</h3>
+                        <p class="muted">
+                            Try another restaurant name or cuisine.
+                        </p>
+
+                        <a class="btn"
+                           href="<%= request.getContextPath() %>/restaurant">
+                            Show All Restaurants
+                        </a>
+                    </div>
+
+                    <%
+                        }
+                    %>
+
+                </div>
+            </section>
+
         </div>
+    </main>
 
-    <%
-        }
-    %>
-
-    </div>
-
-<%
-    } else {
-%>
-
-    <div class="empty-message">
-        <h2>No Restaurants Found</h2>
-        <p>Please check your restaurant records in the database.</p>
-    </div>
-
-<%
-    }
-%>
-
-</div>
-
-<footer>
-    <p>&copy; 2026 KJL Restaurant. All rights reserved.</p>
-</footer>
+    <jsp:include page="/common/footer.jsp" />
 
 </body>
 </html>
-```
